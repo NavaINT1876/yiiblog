@@ -1,7 +1,9 @@
 <?php
 
 use yii\helpers\Html;
-use yii\grid\GridView;
+//use yii\grid\GridView;
+use \app\modules\blog\models\Posts;
+use yii\bootstrap\Carousel;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\modules\blog\models\PostsSearch */
@@ -18,8 +20,23 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('Create Posts', ['create'], ['class' => 'btn btn-success']) ?>
     </p>
+    <div class="row">
 
-    <?= GridView::widget([
+    <? foreach ($posts as $arr){ ?>
+        <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+                <img src="<?= $arr->img ?>" alt="...">
+                <div class="caption">
+                    <h3><?= $arr->title ?></h3>
+                    <p><?= $arr->text_preview ?></p>
+                    <p><a href="index.php?r=blog/default/view&id=<?= $arr->id ?>" class="btn btn-primary" role="button">Button</a></p>
+                </div>
+            </div>
+        </div>
+
+        <?php } ?>
+    </div>
+    <?/*= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
@@ -33,6 +50,8 @@ $this->params['breadcrumbs'][] = $this->title;
 
             ['class' => 'yii\grid\ActionColumn'],
         ],
-    ]); ?>
+    ]); */?>
 
 </div>
+
+<?= \yii\widgets\LinkPager::widget(['pagination' => $pages,])?>

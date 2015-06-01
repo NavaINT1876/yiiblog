@@ -9,7 +9,8 @@ use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-
+use yii\web\UploadedFile;
+use yii\data\Pagination;
 
 /**
  * DefaultController implements the CRUD actions for Posts model.
@@ -27,13 +28,11 @@ class DefaultController extends Controller
             ],
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['create', 'update','delete'],
+                'only' => ['create', 'update', 'delete'],
                 'rules' => [
-                    // deny all POST requests
                     [
-                        'actions' => ['create', 'update','delete'],
                         'allow' => true,
-                        'roles' => ['@'],
+                        'roles' => ['@']
                     ],
                 ],
             ],
@@ -46,13 +45,23 @@ class DefaultController extends Controller
      */
     public function actionIndex()
     {
-        $searchModel = new PostsSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        //$searchModel = new PostsSearch();
+        //$dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
-        return $this->render('index', [
+        $AllPosts = Posts::find();
+
+        if($AllPosts){
+            $pages = new Pagination(['totalCount' => $AllPosts->count(), 'pageSize' => 10]);
+            $posts = $AllPosts->offset($pages->offset)
+                    ->limit($pages->limit)
+                    ->all();
+            return $this->render('index',['posts' => $posts, 'pages' => $pages]);
+        }
+
+        /*return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,
-        ]);
+        ]);*/
     }
 
     /**
@@ -77,6 +86,12 @@ class DefaultController extends Controller
         $model = new Posts();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            if ($model->img = UploadedFile::getInstance($model, 'img')) {
+                $model->img->saveAs('uploads/' . md5(date('dmYHis')) . '.' . $model->img->extension);
+                $model->img = 'uploads/' . md5(date('dmYHis')) . '.' . $model->img->extension;
+            }
+            $model->save();
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('create', [
@@ -85,6 +100,9 @@ class DefaultController extends Controller
         }
     }
 
+    public function actionBeforeSave(){
+
+    }
     /**
      * Updates an existing Posts model.
      * If update is successful, the browser will be redirected to the 'view' page.
@@ -96,6 +114,15 @@ class DefaultController extends Controller
         $model = $this->findModel($id);
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
+
+            $model->img = UploadedFile::getInstance($model, 'img');
+            if ($model->img){
+                $path = Yii::getAlias('@webroot/upload/files') . $model->image->basename;
+                $model->img->saveAs($path);
+
+            }
+            $model->save();
+
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             return $this->render('update', [
@@ -132,5 +159,4 @@ class DefaultController extends Controller
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
-
 }

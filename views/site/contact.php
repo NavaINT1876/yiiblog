@@ -2,7 +2,6 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 use yii\captcha\Captcha;
-use mihaildev\ckeditor\CKEditor;
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
@@ -43,14 +42,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'name') ?>
                 <?= $form->field($model, 'email') ?>
                 <?= $form->field($model, 'subject') ?>
-                <?=
-									$form->field($model, 'body')->widget(CKEditor::className(),[
-											'editorOptions' => [
-													'preset' => 'full', //разработанны стандартные настройки basic, standard, full данную возможность не обязательно использовать
-													'inline' => false, //по умолчанию false
-											],
-									]);
-								?>
+                <?= $form->field($model, 'body')->textArea(['rows' => 6]) ?>
                 <?= $form->field($model, 'verifyCode')->widget(Captcha::className(), [
                     'template' => '<div class="row"><div class="col-lg-3">{image}</div><div class="col-lg-6">{input}</div></div>',
                 ]) ?>

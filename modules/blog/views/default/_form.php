@@ -12,11 +12,11 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(['options' => ['enctype' => 'multipart/form-data']]) ?>
 
-    <?= $form->field($model, 'title')->textInput(['maxlength' => 150]) ?>
+    <?= $form->field($model, 'title')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'text')->textarea(['rows' => 6]) ?>
 
-    <?= $form->field($model, 'text_preview')->textInput(['maxlength' => 250]) ?>
+    <?= $form->field($model, 'text_preview')->textInput(['maxlength' => true]) ?>
 
     <?= $form->field($model, 'img')->fileInput() ?>
 

@@ -3,7 +3,6 @@
 namespace app\modules\blog\models;
 
 use Yii;
-use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "posts".
@@ -16,9 +15,9 @@ use yii\web\UploadedFile;
  */
 class Posts extends \yii\db\ActiveRecord
 {
-    public $string;
     public $image;
     public $filename;
+    public $string;
     /**
      * @inheritdoc
      */
@@ -54,18 +53,4 @@ class Posts extends \yii\db\ActiveRecord
             'img' => 'Img',
         ];
     }
-/*    public function beforeSave($insert){
-        if($this->isNewRecord){
-            $this->string = substr(uniqid('img'), 0, 12);
-            $this->image = UploadedFile::getInstance($this, 'img');
-            $this->filename = 'static/images' .$this->string .'.'.$this->image->extension;
-            $this->image->saveAs($this->filename);
-            $this->img = '/'.$this->filename;
-        }else{
-            $this->img = UploadedFile::getInstance($this,'images');
-            if($this->img){
-                $this->img->saveAs(substr($this->img,1));
-            }
-        }
-    }*/
 }
