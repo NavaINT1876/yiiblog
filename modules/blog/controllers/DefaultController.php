@@ -28,7 +28,7 @@ class DefaultController extends Controller
             ],
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['create', 'update', 'delete'],
+                'only' => ['view','create', 'update', 'delete'],
                 'rules' => [
                     [
                         'allow' => true,
@@ -117,8 +117,8 @@ class DefaultController extends Controller
 
             $model->img = UploadedFile::getInstance($model, 'img');
             if ($model->img){
-                $path = Yii::getAlias('@webroot/upload/files') . $model->image->basename;
-                $model->img->saveAs($path);
+                $model->img->saveAs('uploads/' . md5(date('dmYHis')) . '.' . $model->img->extension);
+                $model->img = 'uploads/' . md5(date('dmYHis')) . '.' . $model->img->extension;
 
             }
             $model->save();

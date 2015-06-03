@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 //use yii\grid\GridView;
-use \app\modules\blog\models\Posts;
+use \app\modules\blog\models;
 use yii\bootstrap\Carousel;
 
 /* @var $this yii\web\View */
@@ -29,7 +29,19 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="caption">
                     <h3><?= $arr->title ?></h3>
                     <p><?= $arr->text_preview ?></p>
-                    <p><a href="index.php?r=blog/default/view&id=<?= $arr->id ?>" class="btn btn-primary" role="button">Button</a></p>
+                    <div class="btn-toolbar">
+                        <div class="btn-group btn-group-md">
+                            <?= Html::a('', ['view', 'id' => $arr->id], ['class' => 'btn btn-success glyphicon glyphicon glyphicon-eye-open']) ?>
+                            <?= Html::a('', ['update', 'id' => $arr->id], ['class' => 'btn btn-primary glyphicon glyphicon-pencil']) ?>
+                            <?= Html::a('', ['delete', 'id' => $arr->id], [
+                                'class' => 'btn btn-danger glyphicon glyphicon-remove',
+                                'data' => [
+                                    'confirm' => 'Are you sure you want to delete this item?',
+                                    'method' => 'post',
+                                ],
+                            ]) ?>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
