@@ -31,10 +31,18 @@ $this->params['breadcrumbs'][] = $this->title;
                     <p><?= $arr->text_preview ?></p>
                     <div class="btn-toolbar">
                         <div class="btn-group btn-group-md">
-                            <?= Html::a('', ['view', 'id' => $arr->id], ['class' => 'btn btn-success glyphicon glyphicon glyphicon-eye-open']) ?>
-                            <?= Html::a('', ['update', 'id' => $arr->id], ['class' => 'btn btn-primary glyphicon glyphicon-pencil']) ?>
+                            <?= Html::a('', ['view', 'id' => $arr->id],
+                                            ['class' => 'btn btn-success glyphicon glyphicon glyphicon-eye-open',
+                                            'data-toggle'=>'tooltip',
+                                            'title'=>'View']) ?>
+                            <?= Html::a('', ['update', 'id' => $arr->id],
+                                            ['class' => 'btn btn-primary glyphicon glyphicon-pencil',
+                                            'data-toggle'=>'tooltip',
+                                            'title'=>'Edit']) ?>
                             <?= Html::a('', ['delete', 'id' => $arr->id], [
                                 'class' => 'btn btn-danger glyphicon glyphicon-remove',
+                                'data-toggle'=>'tooltip',
+                                'title'=>'Delete',
                                 'data' => [
                                     'confirm' => 'Are you sure you want to delete this item?',
                                     'method' => 'post',
