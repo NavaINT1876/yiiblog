@@ -84,7 +84,16 @@ class DefaultController extends Controller
     public function actionCreate()
     {
         $model = new Posts();
+        if (Yii::$app->request->isPost) {
+            $model->img = UploadedFile::getInstances($model, 'img');
 
+            if ($model->img && $model->validate()) {
+                foreach ($model->img as $file) {
+                    $file->saveAs('uploads/' . $file->baseName . '.' . $file->extension);
+                }
+            }
+        }
+/*
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
 
             if ($model->img = UploadedFile::getInstance($model, 'img')) {
@@ -92,8 +101,8 @@ class DefaultController extends Controller
                 $model->img = 'uploads/' . md5(date('dmYHis')) . '.' . $model->img->extension;
             }
             $model->save();
-            return $this->redirect(['view', 'id' => $model->id]);
-        } else {
+            return $this->redirect(['view', 'id' => $model->id]);*/
+         else {
             return $this->render('create', [
                 'model' => $model,
             ]);

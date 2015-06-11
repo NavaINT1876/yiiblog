@@ -8,6 +8,8 @@ use yii\bootstrap\ActiveForm;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
+/* @var $signup_v array */
+/* @var $login_v array */
 
 AppAsset::register($this);
 ?>
@@ -34,6 +36,16 @@ AppAsset::register($this);
                     'class' => 'navbar-inverse navbar-fixed-top',
                 ],
             ]);
+            //check if user is guest to give him correct menu
+            if(Yii::$app->user->isGuest){
+                $signup_v = ['label' => 'Signup', 'url' => ['/site/signup']];
+                $login_v = ['label' => 'Login', 'url' => ['/site/login']];
+            }else{
+                $signup_v = '';
+                $login_v = ['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
+                    'url' => ['/site/logout'],
+                    'linkOptions' => ['data-method' => 'post']];
+            }
             echo Nav::widget([
 							'options' => ['class' => 'navbar-nav navbar-right'],
 							'items' => [
@@ -41,11 +53,8 @@ AppAsset::register($this);
 									['label' => 'Home', 'url' => ['/site/index']],
 									['label' => 'About', 'url' => ['/site/about']],
 									['label' => 'Contact', 'url' => ['/site/contact']],
-									Yii::$app->user->isGuest ? 
-										['label' => 'Login', 'url' => ['/site/login']] :
-										['label' => 'Logout (' . Yii::$app->user->identity->username . ')',
-												'url' => ['/site/logout'],
-												'linkOptions' => ['data-method' => 'post']],
+                                    $signup_v,
+                                    $login_v,
 							],
             ]);
 						?>

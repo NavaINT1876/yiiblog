@@ -18,7 +18,7 @@ use yii\widgets\ActiveForm;
 
     <?= $form->field($model, 'text_preview')->textInput(['maxlength' => true]) ?>
 
-    <?= $form->field($model, 'img')->fileInput($options = ['value' => 'd']) ?>
+    <?= $form->field($model, 'img')->fileInput(['multiple' => true]) ?>
     <?php if($model->img) {?>
     <img src="<?= $model->img ?>" alt="...">
     <?php } ?>

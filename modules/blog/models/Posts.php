@@ -36,7 +36,7 @@ class Posts extends \yii\db\ActiveRecord
             [['text'], 'string'],
             [['title'], 'string', 'max' => 150],
             [['text_preview'], 'string', 'max' => 250],
-            [['img'], 'file'],
+            [['img'], 'file', 'maxFiles' => 10],
         ];
     }
 
