@@ -5,14 +5,19 @@ use yii\db\Migration;
 
 class m150601_130106_create_user_table extends Migration
 {
-    public function up()
+     public function safeUp()
     {
-			$this->createTable('regular_user', ['id'=>'pk', 'password'=>'string NOT NULL', 'email'=>'string NOT NULL']);
+        $this->createTable('countries', ['id'=>'pk', 'country_title'=>'string NOT NULL']);
+        $this->insert('countries', [
+            'country_title'=> 'First country',
+        ]);
     }
 
-    public function down()
+    public function safeDown()
     {
-        $this->dropTable('regular_user');
+        $this->dropTable('countries');
+
+        return false;
     }
     
     /*
